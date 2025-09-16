@@ -1,0 +1,26 @@
+name: google_map
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.9.2
+
+# pubspec.yaml 파일
+# pubspec.yaml 파일
+dependencies:
+  flutter:
+    sdk: flutter
+  google_maps_flutter: ^2.5.3
+  flutter_localizations:
+    sdk: flutter
+  geolocator: ^12.0.0 # geolocator 패키지 추가
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
