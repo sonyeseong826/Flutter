@@ -1,4 +1,3 @@
-// main.dart 파일
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -122,9 +121,9 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
-        elevation: 1, // 앱바 아래 그림자 효과
+        elevation: 4,
+        shadowColor: Colors.black,
         actions: [
-          // 오른쪽 상단에 '나가기' 아이콘 버튼 추가
           IconButton(
             icon: const Icon(Icons.exit_to_app, color: Colors.deepPurple),
             onPressed: () {
@@ -133,71 +132,90 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
           ),
         ],
       ),
-      // 화면의 본문
+
+      // 화면 본문
       body: Stack(
         children: [
-          // 1. 지도 위젯 (가장 아래에 배치)
+          // 1. 지도
           GoogleMap(
             onMapCreated: _onMapCreated,
             initialCameraPosition: const CameraPosition(
               target: _center,
               zoom: 12.0,
             ),
-            zoomControlsEnabled: false, // 확대/축소 버튼 제거
+            zoomControlsEnabled: false,
           ),
-          // 2. 상단 '이용시간 설정하기' 버튼
-          Align(
-            alignment: Alignment.topCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 16.0),
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white.withOpacity(0.9),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+
+          // 2. 상단 '이용시간 설정하기' 카드형 UI
+          Positioned(
+            top: 16,
+            left: 16,
+            right: 16,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
                   ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 15,
-                  ),
-                ),
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.schedule, color: Colors.deepPurple),
-                    SizedBox(width: 8),
-                    Text(
-                      '이용시간 설정하기',
-                      style: TextStyle(
-                        color: Colors.deepPurple,
-                        fontWeight: FontWeight.bold,
-                      ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  const SizedBox(width: 10),
+                  const Icon(Icons.schedule, color: Colors.deepPurple),
+                  const SizedBox(width: 10),
+                  const Text(
+                    '이용시간 설정하기',
+                    style: TextStyle(
+                      color: Colors.deepPurple,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
-                ),
+                  ),
+                  const Spacer(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: const [
+                      Text(
+                        '대여 : 2025-09-17(수) 11:00',
+                        style: TextStyle(fontSize: 12, color: Colors.black54),
+                      ),
+                      Text(
+                        '반납 : 2025-09-24(수) 11:00',
+                        style: TextStyle(fontSize: 12, color: Colors.black54),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(width: 10),
+                ],
               ),
             ),
           ),
+
           // 3. 오른쪽 '내 위치' 버튼
           Positioned(
             right: 16,
-            bottom: 50, // 하단 내비게이션 바 위로 위치 조정
+            bottom: 50,
             child: FloatingActionButton(
               onPressed: _goToCurrentLocation,
-              shape: const CircleBorder(), // 버튼 모양을 원형으로
+              shape: const CircleBorder(),
               backgroundColor: Colors.white,
               child: const Icon(Icons.my_location, color: Colors.deepPurple),
             ),
           ),
         ],
       ),
-      // 하단 내비게이션 바
+
+      // 하단 네비게이션 바
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed, // 아이템 수가 많을 때 사용
-        backgroundColor: Colors.deepPurple.shade100, // 배경색 연보라색으로
-        selectedItemColor: Colors.deepPurple, // 선택된 아이콘/라벨 색상
-        unselectedItemColor: Colors.grey, // 선택되지 않은 아이콘/라벨 색상
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.deepPurple.shade100,
+        selectedItemColor: Colors.deepPurple,
+        unselectedItemColor: Colors.grey,
         selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
         showUnselectedLabels: true,
         items: const <BottomNavigationBarItem>[
